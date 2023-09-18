@@ -1,8 +1,11 @@
+import random
 import pathlib
 import torch
+import numpy as np
 
 from PIL import Image
 from torchvision import transforms
+
 
 class lee_dragon(torch.utils.data.Dataset):
     def __init__(self, image_dirs, gt_dirs):
@@ -10,13 +13,15 @@ class lee_dragon(torch.utils.data.Dataset):
         self.gt_dirs = gt_dirs
         self.train_t = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Resize([2048 // 3, 1024 //3]),
+            # transforms.Resize([2048 // 3, 1024 //3]),
+            transforms.RandomResizedCrop(size = [2048 // 3, 1024 //3], scale=(0.08, 1.0), ratio=(0.75, 1.3333333333333333),)
             transforms.ColorJitter(brightness = 0.5, contrast = 1, saturation = 0.1, hue = 0.5),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
             ])
-        self.test_t = transforms.Compose([
+        self.gt_t = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Resize([2048 // 3, 1024 //3]),
+            # transforms.Resize([2048 // 3, 1024 //3], interpolation = transforms.InterpolationMode.NEAREST),
+            transforms.RandomResizedCrop(size = [2048 // 3, 1024 //3], scale=(0.08, 1.0), ratio=(0.75, 1.3333333333333333),)
             ])
         
         assert len(self.gt_dirs) == len(self.image_dirs), 'fuck wrong'
@@ -25,6 +30,10 @@ class lee_dragon(torch.utils.data.Dataset):
         return len(self.image_dirs)
 
     def __getitem__(self, index):
+        seed = np.random.randint(2147483647)
+        random.seed(seed)
+        torch.manual_seed(seed)
+        
         dir = self.image_dirs[index]
         image = Image.open(dir)
         if self.train_t:
@@ -32,8 +41,8 @@ class lee_dragon(torch.utils.data.Dataset):
             
         dir = self.gt_dirs[index]
         gt = Image.open(dir)
-        if self.test_t:
-            gt = self.test_t(gt)
+        if self.gt_t:
+            gt = self.gt_t(gt)
             gt[gt == 255] = 13
     
         return image, gt.to(torch.long)
