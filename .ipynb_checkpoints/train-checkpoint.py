@@ -95,7 +95,7 @@ if __name__ == '__main__':
     
     for epoch in tqdm(range(epochs)):
         train_loss, train_metric = train(train_loader, optimizer, loss_function, model, metric_function)
-        val_loss, val_metric = evaluate(valid_loader, loss_function, model, metric_function)
+        val_loss, val_metric = evaluate(val_loader, loss_function, model, metric_function)
         
         result_dict['train metric'].append(train_metric)
         result_dict['val metric'].append(val_metric)
