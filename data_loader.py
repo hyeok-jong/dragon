@@ -60,5 +60,5 @@ def set_loader(batch_size):
         pin_memory = True,
         shuffle = True
     )
-    
+    print(len(train_loader.dataset), len(val_loader.dataset))    
     return train_loader, val_loader
