@@ -37,11 +37,11 @@ class lee_dragon(torch.utils.data.Dataset):
     
         return image, gt.to(torch.long)
     
-train_image_dirs = sorted([str(i) for i in pathlib.Path('./open/train_source_image').rglob('*.png')])[:1000]
-train_gt_dirs = sorted([str(i) for i in pathlib.Path('./open/train_source_gt').rglob('*.png')])[:1000]
+train_image_dirs = sorted([str(i) for i in pathlib.Path('./open/train_source_image').rglob('*.png')])
+train_gt_dirs = sorted([str(i) for i in pathlib.Path('./open/train_source_gt').rglob('*.png')])
 
-val_image_dirs = sorted([str(i) for i in pathlib.Path('./open/val_source_image').rglob('*.png')])[:300]
-val_gt_dirs = sorted([str(i) for i in pathlib.Path('./open/val_source_gt').rglob('*.png')])[:300]
+val_image_dirs = sorted([str(i) for i in pathlib.Path('./open/val_source_image').rglob('*.png')])
+val_gt_dirs = sorted([str(i) for i in pathlib.Path('./open/val_source_gt').rglob('*.png')])
 
 
 def set_loader(batch_size):
