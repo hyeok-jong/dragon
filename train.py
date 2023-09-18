@@ -71,14 +71,14 @@ def evaluate(loader, loss_function, model, metric_function):
 
         
 if __name__ == '__main__':
-    batch_size = 32
+    batch_size = 16
     epochs = 50
     train_loader, val_loader = set_loader(batch_size)
     
     
     model = set_model().cuda()
     loss_function = torch.nn.CrossEntropyLoss().cuda()
-    optimizer = torch.optim.SGD(model.parameters(), lr = 1e-1)
+    optimizer = torch.optim.SGD(model.parameters(), lr = 3)
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(
         optimizer = optimizer, 
         milestones = [10*(i+1) for i in range(epochs // 10 + 1)],

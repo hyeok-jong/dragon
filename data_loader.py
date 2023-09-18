@@ -10,12 +10,13 @@ class lee_dragon(torch.utils.data.Dataset):
         self.gt_dirs = gt_dirs
         self.train_t = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Resize([2048 // 4, 1024 //4]),
+            transforms.Resize([2048 // 3, 1024 //3]),
+            transforms.ColorJitter(brightness = 0.5, contrast = 1, saturation = 0.1, hue = 0.5),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
             ])
         self.test_t = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Resize([2048 // 4, 1024 //4]),
+            transforms.Resize([2048 // 3, 1024 //3]),
             ])
         
         assert len(self.gt_dirs) == len(self.image_dirs), 'fuck wrong'
